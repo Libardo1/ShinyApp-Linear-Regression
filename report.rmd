@@ -1,0 +1,60 @@
+---
+title: "Output Report from Shiny Application: Linear Regression Analysis"
+author: "Dongwen Luo"
+---
+
+# Data Information Output:
+
+## Updated Data:
+```{r Data_info2, echo=FALSE}
+str(rslt$dat)
+```
+
+# Data Tabulate Output
+```{r tabu, echo=FALSE}
+print(isolate(reactiveValuesToList(tabudat)))
+```
+
+# Graph Output
+```{r plot, fig.height=7, fig.width=7,  echo=FALSE}
+print(isolate(reactiveValuesToList(datplt)))
+```
+
+# Modelling Output
+
+### Data for Modelling
+```{r modeldat, echo=FALSE}
+str(rslt$modeldata)
+```
+### Model
+To fit the data, we applied a *`r class(rslt$mod)[1]`* model with fixed terms *`r rslt$modterm`*. 
+
+* ANOVA:
+```{r modelanova, echo=FALSE}
+print(rslt$anova)
+```
+* Summary:
+```{r modelsummary, echo=FALSE}
+print(rslt$summary)
+```
+* Confidence interval for parameters:
+```{r modelconfint, echo=FALSE}
+print(rslt$confint)
+```
+
+# Predicted Means Output
+
+For model terms of interest, we performed some further inference.
+```{r modelpredictm, fig.height=7, fig.width=7, echo=FALSE}
+if (!is.null(rslt$pdmt)) {
+	predictmeans(model=rslt$mod, modelterm=rslt$pdmt, pairwise=rslt$pair, atvar=rslt$atvar, 
+	  adj=rslt$adj, Df=rslt$Df,plotord = rslt$morder, barplot = rslt$mptype=="bar", 
+	  level=rslt$level, covariate=rslt$covvalue, trans =rslt$bkf, newwd=FALSE)
+}
+``` 
+
+```{r modelcovm, fig.height=7, fig.width=7, echo=FALSE} 
+print(rslt$covariatemeansplot)
+``` 
+
+Enter file contents here
